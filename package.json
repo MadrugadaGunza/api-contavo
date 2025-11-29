@@ -1,0 +1,30 @@
+{
+  "name": "api-contavo",
+  "version": "1.0.0",
+  "description": "API do aplicativo Contavo | Contabilidade inteligente",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MadrugadaGunza/api-contavo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MadrugadaGunza/api-contavo/issues"
+  },
+  "homepage": "https://github.com/MadrugadaGunza/api-contavo#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^9.0.0",
+    "nodemon": "^3.1.11"
+  }
+}
