@@ -1,8 +1,22 @@
 import { Router } from "express";
-import { createShopping } from "../controllers/shoppingController.js";
+import { upload } from '../middlewares/upload.js';
+import { createShopping, findAllShopping, findShoppingById } from "../controllers/shoppingController.js";
+import { shoppingSchema } from "../validations/shoppingSchema.js";
+import { validate } from "../middlewares/validate.js";
 
-const route = Router();
+const router = Router();
 
-route.post('/', createShopping);
+const parseFormData = (req, res, next) => {
+    if (req.body) {
+        for (let key in req.body) {
+            if (!isNaN(req.body[key])) req.body[key] = Number(req.body[key]);
+        }
+    }
+    next();
+};
 
-export default route;
+router.post("/", upload.single("file"), parseFormData, validate(shoppingSchema), createShopping);
+router.get("/", findAllShopping);
+router.get("/:id", findShoppingById);
+
+export default router;
