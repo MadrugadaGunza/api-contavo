@@ -10,7 +10,7 @@ export const shoppingSchema = Yup.object().shape({
     unit_price: Yup.number().required("O preço unitário é obrigatório").min(0, "Preço unitário inválido"),
     amount: Yup.number().required("A quantidade é obrigatória").integer("Quantidade deve ser um número inteiro").min(1, "Quantidade mínima é 1"),
     iva: Yup.string().required("O IVA é obrigatório"),
-    total_price: Yup.number().required("O valor total é obrigatório").min(0, "Valor total inválido"),
+    // total_price: Yup.number().required("O valor total é obrigatório").min(0, "Valor total inválido"),
     status: Yup.string().required("O status é obrigatório").oneOf(["pago", "pendente", "cancelado"], "Status inválido"),
     payment_method: Yup.string().optional().oneOf(["dinheiro", "transferencia", "cartao", "outro"], "Método de pagamento inválido"),
     description: Yup.string().optional()

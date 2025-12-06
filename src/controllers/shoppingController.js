@@ -2,17 +2,50 @@ import { createShoppingService, findAllShoppingService, findShoppingByIdService 
 
 export const createShopping = async (req, res) => {
     try {
-        const { product, category, supplier, nif_supplier, contact_supplier, unit_price, amount, iva, total_price, status, payment_method, description } = req.body;
+        const { product, category, supplier, nif_supplier, contact_supplier,
+            unit_price, amount, iva, status, payment_method, description } = req.body;
+
         const filePath = req.file ? `/uploads/${req.file.filename}` : null;
 
-        const shopping = await createShoppingService({ file: filePath, product, category, supplier, nif_supplier, contact_supplier, unit_price, amount, iva, total_price, status, payment_method, description });
+        // CALCULAR total_price se não foi enviado
+        let total_price = req.body.total_price;
+        if (!total_price && unit_price && amount) {
+            let total = parseFloat(unit_price) * parseInt(amount);
+
+            // Adicionar IVA se aplicável
+            if (iva === "sim") {
+                total = total * 1.23; // Ajuste a percentagem conforme necessário
+            }
+
+            total_price = total.toFixed(2);
+        }
+
+        const shopping = await createShoppingService({
+            file: filePath,
+            product,
+            category,
+            supplier,
+            nif_supplier,
+            contact_supplier,
+            unit_price,
+            amount,
+            iva,
+            status,
+            payment_method,
+            description,
+            total_price // Agora sempre tem valor
+        });
 
         res.status(201).json({ message: "Compra registada com sucesso!", data: shopping });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Erro ao registar compra", error });
+        console.error("Erro detalhado:", error);
+        res.status(500).json({
+            message: "Erro ao registar compra",
+            error: error.message
+        });
     }
 };
+
 
 export const findAllShopping = async (req, res) => {
     try {
